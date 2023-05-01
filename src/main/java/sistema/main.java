@@ -35,5 +35,8 @@ public class main {
         r =is.listarPasajerosAscendente();
         System.out.println("PASAJEROS:  "+r.getValorString());
 
+        r =is.listarPasajerosDescendente();
+        System.out.println("PASAJEROS Descendente:  "+r.getValorString());
+
     }
 }
