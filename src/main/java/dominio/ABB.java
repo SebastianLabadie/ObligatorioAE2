@@ -214,8 +214,10 @@ public class ABB<T extends Comparable<T>>  {
     public boolean buscarDato(T dato){
         return buscarDatoREC(dato,raiz);
     }
-    public Retorno buscarDatoRet(T dato){
-        return buscarDatoRECRet(dato,raiz,0);
+    public RetornoNuestro buscarDatoRet(T dato){
+        RetornoNuestro r= RetornoNuestro.ok(1,"");
+        buscarDatoRECRet(dato,raiz,r);
+        return r;
     }
 
     private boolean buscarDatoREC(T dato, NodoABB nodoAct) {
@@ -230,16 +232,20 @@ public class ABB<T extends Comparable<T>>  {
         return true;
     }
 
-    private Retorno buscarDatoRECRet(T dato, NodoABB nodoAct,int ac) {
-        if (nodoAct == null) return Retorno.error1("no existe un pasajero registrado con ese identificador.");
+    private boolean buscarDatoRECRet(T dato, NodoABB nodoAct,RetornoNuestro ret) {
+        if (nodoAct == null) return false;
 
         if (dato.compareTo(nodoAct.dato) > 0){
-            return buscarDatoRECRet(dato,nodoAct.der,ac+1);
+            ret.setValorInteger(ret.getValorInteger()+1);
+            return buscarDatoRECRet(dato,nodoAct.der,ret);
         } else if (dato.compareTo(nodoAct.dato) <0){
-            return buscarDatoRECRet(dato,nodoAct.izq,ac+1);
+            ret.setValorInteger(ret.getValorInteger()+1);
+            return buscarDatoRECRet(dato,nodoAct.izq,ret);
         }
 
-        return Retorno.ok();
+        ret.setValorString(nodoAct.dato.toString());
+
+        return true;
     }
 
     public void imprimirNivel(){

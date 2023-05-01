@@ -52,7 +52,7 @@ public class ImplementacionSistema implements Sistema {
 
 
         try {
-            Pasajero.validarIdentificacion(nuevoPasajero.getIdentificadorPasajero());
+            nuevoPasajero.validarIdentificacion();
             arbolPasajeros.insertarDato(nuevoPasajero);
 //            System.out.println(arbolPasajeros.toString());
 //
@@ -75,8 +75,11 @@ public class ImplementacionSistema implements Sistema {
     @Override
     public Retorno buscarPasajero(String identificador) {
         try {
+            Pasajero pasajeroABuscar = new Pasajero(identificador);
+            pasajeroABuscar.validarIdentificacion();
 
-            Pasajero.validarIdentificacion(identificador);
+            RetornoNuestro ret = arbolPasajeros.buscarDatoRet(pasajeroABuscar);
+            System.out.println(ret.toString());
         } catch (FormatoIdException e) {
             return Retorno.error1("Identificador no tiene formato válido");
         }

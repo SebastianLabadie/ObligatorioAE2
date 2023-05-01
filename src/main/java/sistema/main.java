@@ -19,6 +19,6 @@ public class main {
         r =is.registrarPasajero("DE5.232.222#1","Jorge",22);
         System.out.println(r.getValorString());
 
-
+        r =is.buscarPasajero("DE5.232.222#1");
     }
 }
