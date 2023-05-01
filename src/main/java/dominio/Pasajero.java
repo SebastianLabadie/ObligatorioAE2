@@ -19,15 +19,15 @@ public class Pasajero implements Comparable<Pasajero> {
         this.nombre = nombre;
     }
 
-    public void validarIdentificacion() throws FormatoIdException {
+    public static void validarIdentificacion(String IdentificadorPasajero) throws FormatoIdException {
         // Validar la longitud mínima de identificación
-        if (this.identificadorPasajero.length() < 8) {
+        if (IdentificadorPasajero.length() < 8) {
             throw new FormatoIdException();
         }
 
         // Extraer el código de nacionalidad e identificación
-        String codigoNacionalidad = this.identificadorPasajero.substring(0, 2);
-        String numero = this.identificadorPasajero.substring(2);
+        String codigoNacionalidad = IdentificadorPasajero.substring(0, 2);
+        String numero = IdentificadorPasajero.substring(2);
 
         // Validar el código de nacionalidad
         if (!codigoNacionalidad.matches("(FR|DE|UK|ES|OT)")) {

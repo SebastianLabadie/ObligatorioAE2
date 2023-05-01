@@ -52,7 +52,7 @@ public class ImplementacionSistema implements Sistema {
 
 
         try {
-            nuevoPasajero.validarIdentificacion();
+            Pasajero.validarIdentificacion();
             arbolPasajeros.insertarDato(nuevoPasajero);
 //            System.out.println(arbolPasajeros.toString());
 //
@@ -74,7 +74,10 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno buscarPasajero(String identificador) {
+
         return Retorno.noImplementada();
+
+
     }
 
     @Override

@@ -227,6 +227,18 @@ public class ABB<T extends Comparable<T>>  {
         return true;
     }
 
+    private int buscarDatoREC(T dato, NodoABB nodoAct,int ac) {
+        if (nodoAct == null) return 0;
+
+        if (dato.compareTo(nodoAct.dato) > 0){
+            return buscarDatoREC(dato,nodoAct.der,ac+1);
+        } else if (dato.compareTo(nodoAct.dato) <0){
+            return buscarDatoREC(dato,nodoAct.izq,ac+1);
+        }
+
+        return ac;
+    }
+
     public void imprimirNivel(){
         //To-Do asd
     }
