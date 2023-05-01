@@ -79,13 +79,14 @@ public class ImplementacionSistema implements Sistema {
             pasajeroABuscar.validarIdentificacion();
 
             RetornoNuestro ret = arbolPasajeros.buscarDatoRet(pasajeroABuscar);
-            System.out.println(ret.toString());
+            if (ret.getValorString().isEmpty()){
+                return Retorno.error2("no existe un pasajero registrado con ese identificador");
+            }
+
+            return Retorno.ok(ret.getValorInteger(),ret.getValorString());
         } catch (FormatoIdException e) {
             return Retorno.error1("Identificador no tiene formato válido");
         }
-
-
-        return Retorno.noImplementada();
 
 
     }

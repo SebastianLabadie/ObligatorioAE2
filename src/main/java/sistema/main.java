@@ -19,6 +19,16 @@ public class main {
         r =is.registrarPasajero("DE5.232.222#1","Jorge",22);
         System.out.println(r.getValorString());
 
+        //NO EXISTE PASAJERO
+        r =is.buscarPasajero("DE5.232.222#4");
+        System.out.println(r.getValorString());
+
+        //NO ESTA BIEN EL IDENTIFICADOR
+        r =is.buscarPasajero("DE5.232222#1");
+        System.out.println(r.getValorString());
+
+        //ESTA BIEN
         r =is.buscarPasajero("DE5.232.222#1");
+        System.out.println("Cantidad de recorridas:"+r.getValorInteger().toString() +" valor:"+r.getValorString());
     }
 }

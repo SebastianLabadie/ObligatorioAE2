@@ -215,6 +215,7 @@ public class ABB<T extends Comparable<T>>  {
         return buscarDatoREC(dato,raiz);
     }
     public RetornoNuestro buscarDatoRet(T dato){
+
         RetornoNuestro r= RetornoNuestro.ok(1,"");
         buscarDatoRECRet(dato,raiz,r);
         return r;
