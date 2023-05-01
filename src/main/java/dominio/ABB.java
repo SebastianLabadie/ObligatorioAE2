@@ -178,6 +178,25 @@ public class ABB<T extends Comparable<T>>  {
 //        postOrder(raiz);
 //        System.out.println("-------------");
     }
+
+    public RetornoNuestro ListarInOrder (){
+        RetornoNuestro r= RetornoNuestro.ok(0,"");
+        ListarInOrderRec(raiz,r);
+        return r;
+    }
+
+    private void ListarInOrderRec (NodoABB nodoAct,RetornoNuestro ret){
+        if (nodoAct != null){
+            ListarInOrderRec(nodoAct.izq,ret);
+            if (esHoja(nodoAct)){
+                ret.setValorString(ret.getValorString()+nodoAct.dato.toString());
+            }else{
+                ret.setValorString(ret.getValorString()+nodoAct.dato.toString()+"|");
+            }
+            //System.out.println(nodoAct.dato);
+            ListarInOrderRec(nodoAct.der,ret);
+        }
+    }
     private void inOrder (NodoABB nodoAct){
         if (nodoAct != null){
             inOrder(nodoAct.izq);

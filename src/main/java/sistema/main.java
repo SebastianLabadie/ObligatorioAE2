@@ -30,5 +30,10 @@ public class main {
         //ESTA BIEN
         r =is.buscarPasajero("DE5.232.222#1");
         System.out.println("Cantidad de recorridas:"+r.getValorInteger().toString() +" valor:"+r.getValorString());
+
+
+        r =is.listarPasajerosAscendente();
+        System.out.println("PASAJEROS:  "+r.getValorString());
+
     }
 }

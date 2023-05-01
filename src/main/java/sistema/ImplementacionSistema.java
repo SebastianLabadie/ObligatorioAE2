@@ -93,7 +93,8 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarPasajerosAscendente() {
-        return Retorno.noImplementada();
+        RetornoNuestro ret = arbolPasajeros.ListarInOrder();
+        return Retorno.ok(ret.getValorString());
     }
 
     @Override
