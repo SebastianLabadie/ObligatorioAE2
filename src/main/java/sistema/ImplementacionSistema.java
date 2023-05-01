@@ -75,6 +75,7 @@ public class ImplementacionSistema implements Sistema {
     @Override
     public Retorno buscarPasajero(String identificador) {
         try {
+
             Pasajero.validarIdentificacion(identificador);
         } catch (FormatoIdException e) {
             return Retorno.error1("Identificador no tiene formato válido");

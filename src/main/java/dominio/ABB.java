@@ -3,7 +3,7 @@ package dominio;
 import Exceptions.DuplicadoExcpetion;
 
 import java.util.Objects;
-
+import interfaz .*;
 public class ABB<T extends Comparable<T>>  {
 
     private NodoABB raiz;
@@ -214,6 +214,9 @@ public class ABB<T extends Comparable<T>>  {
     public boolean buscarDato(T dato){
         return buscarDatoREC(dato,raiz);
     }
+    public Retorno buscarDatoRet(T dato){
+        return buscarDatoRECRet(dato,raiz,0);
+    }
 
     private boolean buscarDatoREC(T dato, NodoABB nodoAct) {
         if (nodoAct == null) return false;
@@ -227,16 +230,16 @@ public class ABB<T extends Comparable<T>>  {
         return true;
     }
 
-    private int buscarDatoREC(T dato, NodoABB nodoAct,int ac) {
-        if (nodoAct == null) return 0;
+    private Retorno buscarDatoRECRet(T dato, NodoABB nodoAct,int ac) {
+        if (nodoAct == null) return Retorno.error1("no existe un pasajero registrado con ese identificador.");
 
         if (dato.compareTo(nodoAct.dato) > 0){
-            return buscarDatoREC(dato,nodoAct.der,ac+1);
+            return buscarDatoRECRet(dato,nodoAct.der,ac+1);
         } else if (dato.compareTo(nodoAct.dato) <0){
-            return buscarDatoREC(dato,nodoAct.izq,ac+1);
+            return buscarDatoRECRet(dato,nodoAct.izq,ac+1);
         }
 
-        return ac;
+        return Retorno.ok();
     }
 
     public void imprimirNivel(){
