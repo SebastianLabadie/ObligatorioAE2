@@ -4,6 +4,8 @@ import Exceptions.FormatoIdException;
 import interfaz.Nacionalidad;
 
 public class Pasajero implements Comparable<Pasajero> {
+
+
     private String identificadorPasajero;
 
     private Nacionalidad nacionalidad;
@@ -70,4 +72,24 @@ public class Pasajero implements Comparable<Pasajero> {
     public String toString() {
         return  identificadorPasajero;
     }
+
+    public String getIdentificadorPasajero() {
+        return identificadorPasajero;
+    }
+
+    public Nacionalidad getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+
 }
+
+
