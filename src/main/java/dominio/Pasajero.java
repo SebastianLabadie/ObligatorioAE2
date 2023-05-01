@@ -1,5 +1,6 @@
 package dominio;
 
+import Exceptions.FormatoIdException;
 import interfaz.Nacionalidad;
 
 public class Pasajero implements Comparable<Pasajero> {
@@ -18,34 +19,26 @@ public class Pasajero implements Comparable<Pasajero> {
         this.nombre = nombre;
     }
 
-    public Pasajero(String identificadorPasajero, int edad, String nombre) {
-        this.identificadorPasajero = identificadorPasajero;
-        this.edad = edad;
-        this.nombre = nombre;
-    }
-
-    public static boolean validarIdentificacion(String numeroIdentificacion) {
+    public void validarIdentificacion() throws FormatoIdException {
         // Validar la longitud mínima de identificación
-        if (numeroIdentificacion.length() < 8) {
-            return false;
+        if (this.identificadorPasajero.length() < 8) {
+            throw new FormatoIdException();
         }
 
         // Extraer el código de nacionalidad e identificación
-        String codigoNacionalidad = numeroIdentificacion.substring(0, 2);
-        String numero = numeroIdentificacion.substring(2);
+        String codigoNacionalidad = this.identificadorPasajero.substring(0, 2);
+        String numero = this.identificadorPasajero.substring(2);
 
         // Validar el código de nacionalidad
         if (!codigoNacionalidad.matches("(FR|DE|UK|ES|OT)")) {
-            return false;
+            throw new FormatoIdException();
         }
 
         // Validar el formato de identificación
         if (!numero.matches("^\\d{1,3}(\\.\\d{3})*#\\d$")) {
-            return false;
+            throw new FormatoIdException();
         }
 
-        // Validación exitosa
-        return true;
     }
 
 

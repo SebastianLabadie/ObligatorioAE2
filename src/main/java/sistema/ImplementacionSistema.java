@@ -1,6 +1,7 @@
 package sistema;
 
 import Exceptions.DuplicadoExcpetion;
+import Exceptions.FormatoIdException;
 import dominio.ABB;
 import dominio.ListaGenerica;
 import dominio.Pasajero;
@@ -9,6 +10,8 @@ import interfaz.*;
 import java.util.function.Predicate;
 
 public class ImplementacionSistema implements Sistema {
+
+    public ABB arbolPasajeros;
 
     @Override
     public Retorno inicializarSistema(int maxEstaciones) {
@@ -22,30 +25,18 @@ public class ImplementacionSistema implements Sistema {
 
         ListaGenerica<Integer> milista2 = milista.filtrar(new Predicate<Integer>() {
             @Override
-            public boolean test(Integer integer) {
-                return integer%2==0;
+            public boolean test(Integer num) {
+                return num%2 ==0;
             }
         });
 
         System.out.println(milista2.toString());
 
         //PRUEBA ABB
-        Pasajero p1 = new Pasajero("DE234.233#1",Nacionalidad.fromCodigo("DE"),33,"Ana");
-        Pasajero p2 = new Pasajero("FR1.234.233#1",Nacionalidad.fromCodigo("FR"),33,"Alberto");
-        Pasajero p3 = new Pasajero("DE5.232.222#1",Nacionalidad.fromCodigo("DE"),33,"Jorge");
 
 
-        ABB arbolPasajeros = new ABB<Pasajero>();
-        try {
-            arbolPasajeros.insertarDato(p2);
-            arbolPasajeros.insertarDato(p3);
-            arbolPasajeros.insertarDato(p1);
-            System.out.println(arbolPasajeros.toString());
+        this.arbolPasajeros = new ABB<Pasajero>();
 
-            arbolPasajeros.imprimir();
-        } catch (DuplicadoExcpetion e) {
-            System.out.println("Pasajero duplicado rey");
-        }
 
 
 
@@ -54,7 +45,26 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno registrarPasajero(String identificador, String nombre, int edad) {
-        return Retorno.noImplementada();
+        if (identificador == null || identificador.isEmpty() || nombre == null  || nombre.isEmpty() ||  edad< 0) return Retorno.error1("Alguno de los parámetros es vacío o null.");
+
+        //Arreglar nacionalidad
+        Pasajero nuevoPasajero = new Pasajero(identificador, Nacionalidad.fromCodigo("DE"),edad,nombre);
+
+
+        try {
+            nuevoPasajero.validarIdentificacion();
+            arbolPasajeros.insertarDato(nuevoPasajero);
+//            System.out.println(arbolPasajeros.toString());
+//
+//            arbolPasajeros.imprimir();
+        }catch (FormatoIdException e) {
+            return Retorno.error2("El identificador no tiene el formato válido");
+        }
+        catch (DuplicadoExcpetion e) {
+           return Retorno.error3("Ya existe un pasajero registrado con ese identificador.");
+        }
+
+        return Retorno.ok();
     }
 
     @Override
