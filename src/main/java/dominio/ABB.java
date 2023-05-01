@@ -209,7 +209,7 @@ public class ABB<T extends Comparable<T>>  {
     //da mas puntos al que hizo arbol generico
     //ver video de generics y predicate
     //arboles es la primera mitad del ob
-    //grafos es la segunda mitad del ob
+    //grafos es la segunda mitad del ob/asdasd
 
     public boolean buscarDato(T dato){
         return buscarDatoREC(dato,raiz);
