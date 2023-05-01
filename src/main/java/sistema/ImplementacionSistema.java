@@ -39,7 +39,6 @@ public class ImplementacionSistema implements Sistema {
 
 
 
-
         return Retorno.noImplementada();
     }
 
@@ -56,7 +55,7 @@ public class ImplementacionSistema implements Sistema {
             arbolPasajeros.insertarDato(nuevoPasajero);
 //            System.out.println(arbolPasajeros.toString());
 //
-//            arbolPasajeros.imprimir();
+//           arbolPasajeros.imprimir();
         }catch (FormatoIdException e) {
             return Retorno.error2("El identificador no tiene el formato válido");
         }
@@ -100,6 +99,7 @@ public class ImplementacionSistema implements Sistema {
     @Override
     public Retorno listarPasajerosDescendente() {
         RetornoNuestro ret = arbolPasajeros.ListarInOrderDesc();
+        arbolPasajeros.imprimir();
         return Retorno.ok(ret.getValorString());
     }
 
