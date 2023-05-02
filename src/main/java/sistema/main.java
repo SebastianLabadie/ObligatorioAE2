@@ -9,15 +9,18 @@ public class main {
         ImplementacionSistema is = new ImplementacionSistema();
         is.inicializarSistema(22);
 
-
-        Retorno r = is.registrarPasajero("DE234.233#1","Ana",22);
-        System.out.println(r.getValorString());
-
-        r = is.registrarPasajero("FR1.234.233#1","Alberto",22);
+        Retorno r = is.registrarPasajero("FR1.234.233#1","Alberto",22);
         System.out.println(r.getValorString());
 
         r =is.registrarPasajero("DE5.232.222#1","Jorge",22);
         System.out.println(r.getValorString());
+
+        r = is.registrarPasajero("DE234.233#1","Ana",22);
+        System.out.println(r.getValorString());
+
+
+
+
 
         //NO EXISTE PASAJERO
         r =is.buscarPasajero("DE5.232.222#4");

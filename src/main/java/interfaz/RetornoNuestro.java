@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class RetornoNuestro {
     public enum Resultado {
-        OK, ERROR_1, ERROR_2, ERROR_3, ERROR_4, ERROR_5, ERROR_6, ERROR_7, NO_IMPLEMENTADA
+        OK, ERROR_1,
     }
 
     private Resultado resultado;
@@ -60,9 +60,6 @@ public class RetornoNuestro {
         return Objects.hash(resultado, valorInteger, valorString);
     }
 
-    public static RetornoNuestro ok() {
-        return new RetornoNuestro(Resultado.OK, null, null);
-    }
 
     public static RetornoNuestro ok(String valorString) {
         return new RetornoNuestro(Resultado.OK, null, valorString);
@@ -84,33 +81,6 @@ public class RetornoNuestro {
         return error(Resultado.ERROR_1, mensaje);
     }
 
-    public static RetornoNuestro error2(String mensaje) {
-        return error(Resultado.ERROR_2, mensaje);
-    }
-
-    public static RetornoNuestro error3(String mensaje) {
-        return error(Resultado.ERROR_3, mensaje);
-    }
-
-    public static RetornoNuestro error4(String mensaje) {
-        return error(Resultado.ERROR_4, mensaje);
-    }
-
-    public static RetornoNuestro error5(String mensaje) {
-        return error(Resultado.ERROR_5, mensaje);
-    }
-
-    public static RetornoNuestro error6(String mensaje) {
-        return error(Resultado.ERROR_6, mensaje);
-    }
-
-    public static RetornoNuestro error7(String mensaje) {
-        return error(Resultado.ERROR_7, mensaje);
-    }
-
-    public static RetornoNuestro noImplementada() {
-        return new RetornoNuestro(Resultado.NO_IMPLEMENTADA, 0, "");
-    }
 
     public boolean isOk() {
         return this.resultado == Resultado.OK;
@@ -128,8 +98,6 @@ public class RetornoNuestro {
             } else {
                 return "OK";
             }
-        } else if (resultado == Resultado.NO_IMPLEMENTADA) {
-            return resultado.name();
         }
         return String.format("%s['%s']", resultado.name(), valorString);
     }

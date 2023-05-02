@@ -2,6 +2,7 @@ package dominio;
 
 import Exceptions.DuplicadoExcpetion;
 
+import java.lang.reflect.Type;
 import java.util.Objects;
 import interfaz .*;
 public class ABB<T extends Comparable<T>>  {
@@ -187,12 +188,7 @@ public class ABB<T extends Comparable<T>>  {
     private void ListarInOrderRec (NodoABB nodoAct,RetornoNuestro ret){
         if (nodoAct != null){
             ListarInOrderRec(nodoAct.izq,ret);
-            if (esHoja(nodoAct)){
-                ret.setValorString(ret.getValorString()+nodoAct.dato.toString());
-            }else{
-                ret.setValorString(ret.getValorString()+nodoAct.dato.toString()+"|");
-            }
-            //System.out.println(nodoAct.dato);
+            ret.setValorString(ret.getValorString()+nodoAct.dato.toString()+"|");
             ListarInOrderRec(nodoAct.der,ret);
         }
     }
@@ -206,11 +202,11 @@ public class ABB<T extends Comparable<T>>  {
         if (nodoAct != null){
 
             ListarInOrderDescRec(nodoAct.der,ret);
-            if (esHoja(nodoAct)){
-                ret.setValorString(ret.getValorString()+nodoAct.dato.toString());
-            }else{
+//            if (esHoja(nodoAct)){
+//                ret.setValorString(ret.getValorString()+nodoAct.dato.toString());
+//            }else{
                 ret.setValorString(ret.getValorString()+nodoAct.dato.toString()+"|");
-            }
+//            }
 
             ListarInOrderDescRec(nodoAct.izq,ret);
             //System.out.println(nodoAct.dato)
@@ -253,11 +249,8 @@ public class ABB<T extends Comparable<T>>  {
     public boolean buscarDato(T dato){
         return buscarDatoREC(dato,raiz);
     }
-    public RetornoNuestro buscarDatoRet(T dato){
-
-        RetornoNuestro r= RetornoNuestro.ok(1,"");
-        buscarDatoRECRet(dato,raiz,r);
-        return r;
+    public Tupla<T,Integer> buscarDatoRet(T dato){
+        return buscarRecVersion2(raiz,dato,0);
     }
 
     private boolean buscarDatoREC(T dato, NodoABB nodoAct) {
@@ -272,6 +265,28 @@ public class ABB<T extends Comparable<T>>  {
         return true;
     }
 
+
+
+    public Tupla<T,Integer> buscarRecVersion2(NodoABB nodoAct,T dato,int profundidad){
+
+        if(nodoAct==null)return null;
+
+        if (esMayor(dato,nodoAct.dato)){
+            return buscarRecVersion2(nodoAct.der,dato,profundidad+1);
+        } else if (esMenor(dato,nodoAct.dato)){
+            return buscarRecVersion2(nodoAct.izq,dato,profundidad+1);
+        }
+
+        return new Tupla<T,Integer>(nodoAct.dato,profundidad);
+    }
+
+    private boolean esMayor(T dato,T datoNodo){
+        return dato.compareTo(datoNodo) > 0;
+    }
+
+    private boolean esMenor(T dato,T datoNodo){
+        return dato.compareTo(datoNodo) < 0;
+    }
     private boolean buscarDatoRECRet(T dato, NodoABB nodoAct,RetornoNuestro ret) {
         if (nodoAct == null) return false;
 

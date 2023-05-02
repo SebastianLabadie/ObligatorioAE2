@@ -5,13 +5,14 @@ import Exceptions.FormatoIdException;
 import dominio.ABB;
 import dominio.ListaGenerica;
 import dominio.Pasajero;
+import dominio.Tupla;
 import interfaz.*;
 
 import java.util.function.Predicate;
 
 public class ImplementacionSistema implements Sistema {
 
-    public ABB arbolPasajeros;
+    public ABB<Pasajero> arbolPasajeros;
 
     @Override
     public Retorno inicializarSistema(int maxEstaciones) {
@@ -77,12 +78,12 @@ public class ImplementacionSistema implements Sistema {
             Pasajero pasajeroABuscar = new Pasajero(identificador);
             pasajeroABuscar.validarIdentificacion();
 
-            RetornoNuestro ret = arbolPasajeros.buscarDatoRet(pasajeroABuscar);
-            if (ret.getValorString().isEmpty()){
-                return Retorno.error2("no existe un pasajero registrado con ese identificador");
+            Tupla<Pasajero,Integer> pasajeroFiltrado = arbolPasajeros.buscarDatoRet(pasajeroABuscar);
+            if (pasajeroFiltrado == null){
+                return Retorno.error2("No existe un pasajero registrado con ese identificador");
             }
 
-            return Retorno.ok(ret.getValorInteger(),ret.getValorString());
+            return Retorno.ok(pasajeroFiltrado.getDos(),pasajeroFiltrado.getUno().toString());
         } catch (FormatoIdException e) {
             return Retorno.error1("Identificador no tiene formato válido");
         }
@@ -98,8 +99,9 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarPasajerosDescendente() {
+        //System.out.println(arbolPasajeros.toString());
         RetornoNuestro ret = arbolPasajeros.ListarInOrderDesc();
-        arbolPasajeros.imprimir();
+        //arbolPasajeros.imprimir();
         return Retorno.ok(ret.getValorString());
     }
 
