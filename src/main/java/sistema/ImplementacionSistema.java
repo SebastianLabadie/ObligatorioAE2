@@ -2,10 +2,7 @@ package sistema;
 
 import Exceptions.DuplicadoExcpetion;
 import Exceptions.FormatoIdException;
-import dominio.ABB;
-import dominio.ListaGenerica;
-import dominio.Pasajero;
-import dominio.Tupla;
+import dominio.*;
 import interfaz.*;
 
 import java.util.function.Predicate;
@@ -20,7 +17,7 @@ public class ImplementacionSistema implements Sistema {
         //PRUEBA LISTAS
         ListaGenerica<Integer> milista = new ListaGenerica<Integer>();
         for (int i=0;i<=100;i++){
-            milista.agregarFinal(i);
+            milista.agregarInicio(i);
         }
         System.out.println(milista.toString());
 
@@ -93,16 +90,16 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarPasajerosAscendente() {
-        RetornoNuestro ret = arbolPasajeros.ListarInOrder();
-        return Retorno.ok(ret.getValorString());
+        VisitorListaFin<Pasajero> lista = new VisitorListaFin<Pasajero>();
+        arbolPasajeros.ListarInOrder(lista);
+        return Retorno.ok(lista.toString());
     }
 
     @Override
     public Retorno listarPasajerosDescendente() {
-        //System.out.println(arbolPasajeros.toString());
-        RetornoNuestro ret = arbolPasajeros.ListarInOrderDesc();
-        //arbolPasajeros.imprimir();
-        return Retorno.ok(ret.getValorString());
+        VisitorListaIni<Pasajero> lista = new VisitorListaIni<Pasajero>();
+        arbolPasajeros.ListarInOrder(lista);
+        return Retorno.ok(lista.toString());
     }
 
     @Override

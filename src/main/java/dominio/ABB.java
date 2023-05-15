@@ -180,39 +180,19 @@ public class ABB<T extends Comparable<T>>  {
 //        System.out.println("-------------");
     }
 
-    public RetornoNuestro ListarInOrder (){
-        RetornoNuestro r= RetornoNuestro.ok(0,"");
-        ListarInOrderRec(raiz,r);
-        return r;
+    public void ListarInOrder (Visitor<T> visitor){
+
+        ListarInOrderRec(raiz,visitor);
     }
-    private void ListarInOrderRec (NodoABB nodoAct,RetornoNuestro ret){
+    private void ListarInOrderRec (NodoABB nodoAct,Visitor<T> visitor){
+
         if (nodoAct != null){
-            ListarInOrderRec(nodoAct.izq,ret);
-            ret.setValorString(ret.getValorString()+nodoAct.dato.toString()+"|");
-            ListarInOrderRec(nodoAct.der,ret);
+            ListarInOrderRec(nodoAct.izq,visitor);
+            visitor.visitar(nodoAct.dato);
+            ListarInOrderRec(nodoAct.der,visitor);
         }
     }
-    public RetornoNuestro ListarInOrderDesc (){
-        RetornoNuestro r= RetornoNuestro.ok(0,"");
-        ListarInOrderDescRec(raiz,r);
-        return r;
-    }
 
-    private void ListarInOrderDescRec (NodoABB nodoAct,RetornoNuestro ret){
-        if (nodoAct != null){
-
-            ListarInOrderDescRec(nodoAct.der,ret);
-//            if (esHoja(nodoAct)){
-//                ret.setValorString(ret.getValorString()+nodoAct.dato.toString());
-//            }else{
-                ret.setValorString(ret.getValorString()+nodoAct.dato.toString()+"|");
-//            }
-
-            ListarInOrderDescRec(nodoAct.izq,ret);
-            //System.out.println(nodoAct.dato)
-
-        }
-    }
     private void inOrder (NodoABB nodoAct){
         if (nodoAct != null){
             inOrder(nodoAct.izq);

@@ -26,7 +26,7 @@ public class ListaGenerica<T> {
     private NodoLista fin;
 
     public void agregarInicio(T datoNuevo) {
-        inicio = new NodoLista(datoNuevo, null);
+        inicio = new NodoLista(datoNuevo, inicio);
         if (fin == null) fin = inicio;
     }
 
