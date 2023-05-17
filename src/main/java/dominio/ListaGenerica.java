@@ -1,5 +1,6 @@
 package dominio;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class ListaGenerica<T> {
@@ -52,6 +53,7 @@ public class ListaGenerica<T> {
     }
 
     public T removerInicio() {
+        Objects.requireNonNull(inicio,"La lista es vaciá");
         if (!esVacia()) {
             T resultado = inicio.dato;
             if (inicio.sig == null) {
@@ -97,5 +99,7 @@ public class ListaGenerica<T> {
         }
     }
 
-
+    public T primero(){
+        return inicio.dato;
+    }
 }
