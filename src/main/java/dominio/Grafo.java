@@ -2,30 +2,30 @@ package dominio;
 
 public class Grafo {
     private class Aristas{
-        private ListaGenerica<Pasajero> pasajeros;
+        private ListaGenerica<Conexion> conexiones;
         int vOrigen,vDestino;
 
         public Aristas(int vOrigen, int vDestino) {
             this.vOrigen = vOrigen;
             this.vDestino = vDestino;
-            this.pasajeros = new ListaGenerica<>();
+            this.conexiones = new ListaGenerica<>();
         }
 
         public boolean existe(){
-            return !pasajeros.esVacia();
+            return !conexiones.esVacia();
         }
     }
 
 
     private Aristas[][] aristas;
-    private Pasajero[] vertices;
+    private Estacion[] vertices;
     private int maxV;
 
     private int largo;
 
     public Grafo(int maximoVertices) {
         this.aristas = new Aristas[maximoVertices][maximoVertices];
-        this.vertices = new Pasajero[maximoVertices];
+        this.vertices = new Estacion[maximoVertices];
         this.maxV = maximoVertices;
 
         for (int i = 0; i <maximoVertices; i++) {
@@ -35,7 +35,7 @@ public class Grafo {
         }
     }
 
-    public void agregarVertice(Pasajero vertice){
+    public void agregarVertice(Estacion vertice){
         if (largo < maxV){
             //TO-DO revisar que no este repetido el vertice
 //            for (Ciudad c:vertices) {
@@ -60,13 +60,15 @@ public class Grafo {
 
       throw new MiException("No se encontro el indice");
     }
-    public void agregarArista(String nombreOrigen,String nombreDestino,Pasajero pasajero) throws MiException {
+    public void agregarArista(String nombreOrigen,String nombreDestino,Conexion conexion) throws MiException {
         int idxOrigen = buscarIndice(nombreOrigen,true);
         int idxDestino = buscarIndice(nombreDestino,false);
 
         //A la lista generica hay que validarle que no este repetido con Contains
         //if this.aristas[idxOrigen][idxDestino].contains(carretera) throw duplicado
-        this.aristas[idxOrigen][idxDestino].pasajeros.agregarInicio(pasajero);
+        this.aristas[idxOrigen][idxDestino].conexiones.agregarInicio(conexion);
+
+
     }
 
     public void imprimirMatriz (){
@@ -231,6 +233,6 @@ public class Grafo {
 
    /* public String toUrl(){
         return VisualizadorGraphViz.grafoToUrl(vertices,aristas,
-                a->a.existe(),v->v.getNombre(),a->a.pasajeros.getNombre()+"");
+                a->a.existe(),v->v.getNombre(),a->a.conexiones.getNombre()+"");
     }*/
 }
