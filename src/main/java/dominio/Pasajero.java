@@ -54,8 +54,7 @@ public class Pasajero implements Comparable<Pasajero> {
 
     @Override
     public String toString() {
-        return  this.identificadorPasajero+';'+this.nombre+";"+this.edad+";"+this.nacionalidad;
-
+        return  this.identificadorPasajero+';'+this.nombre+";"+this.edad+";"+this.nacionalidad.getCodigo();
     }
 
     public String getIdentificadorPasajero() {

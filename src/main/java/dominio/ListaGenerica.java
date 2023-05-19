@@ -77,7 +77,7 @@ public class ListaGenerica<T> {
         else if (actual.sig == null) {
             return actual.dato + "";
         }
-        return actual.dato + "," + toStringRec(actual.sig);
+        return actual.dato + "|" + toStringRec(actual.sig);
     }
 
 

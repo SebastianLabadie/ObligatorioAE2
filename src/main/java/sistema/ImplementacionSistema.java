@@ -10,34 +10,34 @@ import java.util.function.Predicate;
 public class ImplementacionSistema implements Sistema {
 
     public ABB<Pasajero> arbolPasajeros;
+    public Grafo grafoEstaciones;
 
     @Override
     public Retorno inicializarSistema(int maxEstaciones) {
 
         //PRUEBA LISTAS
-        ListaGenerica<Integer> milista = new ListaGenerica<Integer>();
-        for (int i=0;i<=100;i++){
-            milista.agregarInicio(i);
-        }
-        System.out.println(milista.toString());
+//        ListaGenerica<Integer> milista = new ListaGenerica<Integer>();
+//        for (int i=0;i<=100;i++){
+//            milista.agregarInicio(i);
+//        }
+//        System.out.println(milista.toString());
+//
+//        ListaGenerica<Integer> milista2 = milista.filtrar(new Predicate<Integer>() {
+//            @Override
+//            public boolean test(Integer num) {
+//                return num%2 ==0;
+//            }
+//        });
+//
+//        System.out.println(milista2.toString());
 
-        ListaGenerica<Integer> milista2 = milista.filtrar(new Predicate<Integer>() {
-            @Override
-            public boolean test(Integer num) {
-                return num%2 ==0;
-            }
-        });
-
-        System.out.println(milista2.toString());
-
-        //PRUEBA ABB
-
+        if (maxEstaciones <= 5) return Retorno.error1("Error maxEstaciones es menor o igual a 5");
 
         this.arbolPasajeros = new ABB<Pasajero>();
+        this.grafoEstaciones = new Grafo(maxEstaciones);
 
 
-
-        return Retorno.noImplementada();
+        return Retorno.ok();
     }
 
     @Override
