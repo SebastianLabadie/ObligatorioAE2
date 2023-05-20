@@ -48,7 +48,7 @@ public class Grafo {
             for (int i = 0; i < vertices.length; i++) {
                 System.out.println("i "+i);
                 System.out.println("i "+vertices[i].toString());
-                if (vertices[i].equals(vertice)) throw  new DuplicadoExcpetion();
+                if (vertices[i].getCodigo().equals(vertice.getCodigo())) throw  new DuplicadoExcpetion();
             }
 
             this.vertices[largo]=vertice;

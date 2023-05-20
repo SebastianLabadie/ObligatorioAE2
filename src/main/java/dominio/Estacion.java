@@ -25,7 +25,7 @@ public class Estacion {
     public void Validar() throws FormatoIdException {
         if (this.Nombre.isEmpty() || this.Codigo.isEmpty())throw new FormatoIdException();
 
-        if (!this.Codigo.matches("^[a-zA-Z]{3}\\d{3}$")|| this.Codigo.length() != 6 ) {
+        if (!this.Codigo.matches("^[A-Z]{3}\\d{3}$")|| this.Codigo.length() != 6 ) {
             throw new FormatoIdException();
         }
 
