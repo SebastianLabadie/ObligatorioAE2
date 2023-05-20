@@ -1,6 +1,7 @@
 package dominio;
 
 import Exceptions.FormatoIdException;
+import Exceptions.VacioException;
 
 public class Estacion {
 
@@ -31,4 +32,15 @@ public class Estacion {
     }
 
 
+    public static Estacion of(String codigo, String nombre) throws VacioException {
+        return new Estacion(Validador.noVacio(codigo),Validador.noVacio(nombre));
+    }
+
+    @Override
+    public String toString() {
+        return "Estacion{" +
+                "Codigo='" + Codigo + '\'' +
+                ", Nombre='" + Nombre + '\'' +
+                '}';
+    }
 }

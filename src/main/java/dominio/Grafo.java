@@ -1,5 +1,10 @@
 package dominio;
 
+import Exceptions.DuplicadoExcpetion;
+import Exceptions.GrafoFullException;
+import Exceptions.IndiceDestinoException;
+import Exceptions.IndiceOrigenException;
+
 public class Grafo {
     private class Aristas{
         private ListaGenerica<Conexion> conexiones;
@@ -14,6 +19,7 @@ public class Grafo {
         public boolean existe(){
             return !conexiones.esVacia();
         }
+
     }
 
 
@@ -29,45 +35,67 @@ public class Grafo {
         this.maxV = maximoVertices;
 
         for (int i = 0; i <maximoVertices; i++) {
+            this.vertices[i] = new Estacion(""+i,""+i);
             for (int j = 0; j < maximoVertices; j++) {
                 this.aristas[i][j] = new Aristas(i,j);
             }
         }
     }
 
-    public void agregarVertice(Estacion vertice){
+    public void agregarVertice(Estacion vertice) throws DuplicadoExcpetion, GrafoFullException {
         if (largo < maxV){
             //TO-DO revisar que no este repetido el vertice
-//            for (Ciudad c:vertices) {
-//                if (c.equals(vertice)) throw  new RuntimeException("Duplicado exception");
-//            }
+            for (int i = 0; i < vertices.length; i++) {
+                System.out.println("i "+i);
+                System.out.println("i "+vertices[i].toString());
+                if (vertices[i].equals(vertice)) throw  new DuplicadoExcpetion();
+            }
 
             this.vertices[largo]=vertice;
             largo++;
         }else{
-            throw new RuntimeException("La estructura esta llena");
+            throw new GrafoFullException();
         }
     }
 
 
     public int buscarIndice(
+            String codigo,
+            boolean esOrigen
+    ) throws IndiceOrigenException, IndiceDestinoException {
+        for (int i = 0; i < vertices.length-1; i++) {
+                if (vertices[i].getCodigo().equals(codigo)) return i;
+        }
+
+
+        if (esOrigen){
+            throw new IndiceOrigenException();
+        }else{
+            throw new IndiceDestinoException();
+        }
+    }
+
+    public int buscarIndiceNombre(
             String nombreCiudad,
             boolean esOrigen
     ) throws MiException {
         for (int i = 0; i < vertices.length-1; i++) {
-                if (vertices[i].getNombre().equals(nombreCiudad)) return i;
+            if (vertices[i].getNombre().equals(nombreCiudad)) return i;
         }
 
-      throw new MiException("No se encontro el indice");
+        throw new MiException("No se encontro el indice");
     }
-    public void agregarArista(String nombreOrigen,String nombreDestino,Conexion conexion) throws MiException {
-        int idxOrigen = buscarIndice(nombreOrigen,true);
-        int idxDestino = buscarIndice(nombreDestino,false);
+    public void agregarArista(String codigoOrigen,String codigoDestino,Conexion conexion) throws IndiceDestinoException, IndiceOrigenException, DuplicadoExcpetion {
+        int idxOrigen = buscarIndice(codigoOrigen,true);
+        int idxDestino = buscarIndice(codigoDestino,false);
 
-        //A la lista generica hay que validarle que no este repetido con Contains
+        //TO-DO A la lista generica hay que validarle que no este repetido con Contains
+       ListaGenerica<Conexion> listaRepetidos = this.aristas[idxOrigen][idxDestino].conexiones.filtrar(conexion1 -> conexion1.equals(conexion));
+       if (!listaRepetidos.esVacia()) throw new DuplicadoExcpetion();
+
+
         //if this.aristas[idxOrigen][idxDestino].contains(carretera) throw duplicado
         this.aristas[idxOrigen][idxDestino].conexiones.agregarInicio(conexion);
-
 
     }
 
@@ -116,7 +144,7 @@ public class Grafo {
     }
 
     //los vertices a los que puedo llegar desde el origen directamente
-    public void imprimirAdyacentesDesde(String origen) throws MiException {
+    public void imprimirAdyacentesDesde(String origen) throws IndiceDestinoException, IndiceOrigenException {
         int idxOrigen=buscarIndice(origen,true);
 
         for (int vDestino = 0; vDestino <maxV; vDestino++) {// itero fila de la matriz de adyacencia
@@ -128,7 +156,7 @@ public class Grafo {
 
     }
     //los vertices con los que puedo llegar a el destino directamente
-    public void imprimirAdyacentesA(String destino) throws MiException {
+    public void imprimirAdyacentesA(String destino) throws MiException,IndiceDestinoException, IndiceOrigenException {
         int idxDestino=buscarIndice(destino,false);
         for (int vOrigen = 0; vOrigen <maxV; vOrigen++) {//itero columna de la matriz de adyacencia
             if(this.esAdyacente(vOrigen,idxDestino)){
@@ -142,7 +170,7 @@ public class Grafo {
         return this.aristas[vOrigen][vDestino].existe();
     }
 
-    public void imprimirCosasALaQuePuedoLlegar(String origen) throws MiException {
+    public void imprimirCosasALaQuePuedoLlegar(String origen) throws IndiceDestinoException, IndiceOrigenException {
         boolean[] visitados=new boolean[maxV];
         imprimirCosasALaQuePuedoLlegarRec(this.buscarIndice(origen,true),visitados);
 
@@ -163,7 +191,7 @@ public class Grafo {
     }
 
     //búsqueda en profundidad
-    public void imprimirDepthfirstSearch(String origen) throws MiException {
+    public void imprimirDepthfirstSearch(String origen) throws IndiceDestinoException, IndiceOrigenException {
         int vOrigen=buscarIndice(origen,true);
         Pila<Integer> frontera= new Pila<>();
         frontera.push(vOrigen);
@@ -185,7 +213,7 @@ public class Grafo {
     }
 
     //busqueda en anchura, el "caballo da circulos concentricos"
-    public void imprimirBreadthFirstSearch(String origen) throws MiException {
+    public void imprimirBreadthFirstSearch(String origen) throws IndiceDestinoException, IndiceOrigenException {
         int vOrigen=buscarIndice(origen,true);
         Cola<Integer> frontera= new Cola<>();
         frontera.add(vOrigen);
@@ -208,7 +236,7 @@ public class Grafo {
     }
 
 
-    public void imprimirBreadthFirstSearchConSaltos(String origen) throws MiException {
+    public void imprimirBreadthFirstSearchConSaltos(String origen) throws IndiceDestinoException, IndiceOrigenException {
         int vOrigen=buscarIndice(origen,true);
         //el primer integer es para guardar los vertices y el 2do es para la cantidad de niveles
         Cola<Tupla<Integer,Integer>> frontera =new Cola<>();

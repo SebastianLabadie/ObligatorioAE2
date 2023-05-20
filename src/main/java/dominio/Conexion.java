@@ -1,14 +1,15 @@
 package dominio;
 
 import Exceptions.FormatoIdException;
+import Exceptions.NumeroNegativoException;
+import Exceptions.VacioException;
+import interfaz.EstadoCamino;
 
 public class Conexion {
 
-    public enum Estado {
-        EXCELENTE,
-        BUENO,
-        MALO,
-    }
+
+
+
     private String codigoEstacionOrigen;
 
     private String codigoEstacionDestino;
@@ -21,7 +22,7 @@ public class Conexion {
 
     private double Kilometros;
 
-    private Estado Estado;
+    private EstadoCamino Estado;
 
 
     public int getConexionId() {
@@ -40,7 +41,7 @@ public class Conexion {
         return Kilometros;
     }
 
-    public Conexion.Estado getEstado() {
+    public EstadoCamino getEstado() {
         return Estado;
     }
 
@@ -52,14 +53,33 @@ public class Conexion {
         return codigoEstacionDestino;
     }
 
-    public void Validar() throws FormatoIdException {
-        if (this.Costo<=0 || this.Kilometros <=0)throw new FormatoIdException();
 
-        if(this.codigoEstacionDestino.isEmpty() || this.codigoEstacionOrigen.isEmpty() || this.Estado == null)throw new FormatoIdException();
+    public Conexion(String codigoEstacionOrigen, String codigoEstacionDestino, int conexionId, double costo, double tiempo, double kilometros, EstadoCamino estado) {
+        this.codigoEstacionOrigen = codigoEstacionOrigen;
+        this.codigoEstacionDestino = codigoEstacionDestino;
+        ConexionId = conexionId;
+        Costo = costo;
+        Tiempo = tiempo;
+        Kilometros = kilometros;
+        Estado = estado;
+    }
+
+    public void Validar() throws FormatoIdException{
 
         if (!this.codigoEstacionOrigen.matches("^[a-zA-Z]{3}\\d{3}$") || this.codigoEstacionOrigen.length() != 6 ||!this.codigoEstacionDestino.matches("^[a-zA-Z]{3}\\d{3}$") || this.codigoEstacionDestino.length() != 6) {
             throw new FormatoIdException();
         }
     }
 
+
+    public static Conexion of(String codigoEstacionOrigen, String codigoEstacionDestino, int conexionId, double costo, double tiempo, double kilometros, EstadoCamino estado) throws VacioException, NumeroNegativoException {
+        return new Conexion(Validador.noVacio(codigoEstacionOrigen),Validador.noVacio(codigoEstacionDestino),Validador.positivo(conexionId),Validador.positivo(costo),Validador.positivo(tiempo),Validador.positivo(kilometros),estado);
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        Conexion miCon = (Conexion) obj;
+        return this.codigoEstacionDestino == miCon.codigoEstacionDestino && this.codigoEstacionOrigen == miCon.codigoEstacionOrigen && this.ConexionId == miCon.ConexionId;
+    }
 }
