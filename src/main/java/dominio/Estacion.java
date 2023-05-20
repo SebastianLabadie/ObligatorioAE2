@@ -3,7 +3,7 @@ package dominio;
 import Exceptions.FormatoIdException;
 import Exceptions.VacioException;
 
-public class Estacion {
+public class Estacion implements Comparable<Estacion> {
 
     private String Codigo;
 
@@ -38,9 +38,11 @@ public class Estacion {
 
     @Override
     public String toString() {
-        return "Estacion{" +
-                "Codigo='" + Codigo + '\'' +
-                ", Nombre='" + Nombre + '\'' +
-                '}';
+        return  this.Codigo + ";" + this.Nombre;
+    }
+
+    @Override
+    public int compareTo(Estacion otraEstacion) {
+        return this.Codigo.compareTo(otraEstacion.getCodigo());
     }
 }

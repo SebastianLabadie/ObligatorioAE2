@@ -53,6 +53,33 @@ public class Conexion {
         return codigoEstacionDestino;
     }
 
+    public void setCodigoEstacionOrigen(String codigoEstacionOrigen) {
+        this.codigoEstacionOrigen = codigoEstacionOrigen;
+    }
+
+    public void setCodigoEstacionDestino(String codigoEstacionDestino) {
+        this.codigoEstacionDestino = codigoEstacionDestino;
+    }
+
+    public void setConexionId(int conexionId) {
+        ConexionId = conexionId;
+    }
+
+    public void setCosto(double costo) {
+        Costo = costo;
+    }
+
+    public void setTiempo(double tiempo) {
+        Tiempo = tiempo;
+    }
+
+    public void setKilometros(double kilometros) {
+        Kilometros = kilometros;
+    }
+
+    public void setEstado(EstadoCamino estado) {
+        Estado = estado;
+    }
 
     public Conexion(String codigoEstacionOrigen, String codigoEstacionDestino, int conexionId, double costo, double tiempo, double kilometros, EstadoCamino estado) {
         this.codigoEstacionOrigen = codigoEstacionOrigen;

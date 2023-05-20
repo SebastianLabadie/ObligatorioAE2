@@ -53,18 +53,18 @@ public class TestTrasbordos {
         sis.inicializarSistema(20);
         return sis;
     }
-
-    public static void main(String[] args) {
-        String[] estaciones = new String[]{"MADRID_1", "MADRID_2", "PARIS_1", "PARIS_2", "LISBOA", "LONDRES", "LYON", "MONTREAL"};
-
-        int id = 1;
-        for (int i = 0; i < estaciones.length; i++) {
-            for (int j = 0; j < estaciones.length; j++) {
-                System.out.printf("private static final TestConexionNoUsar %s_TO_%s=TestConexionNoUsar.conexion(EST_%s,EST_%s,%d);\n",
-                        estaciones[i], estaciones[j], estaciones[i], estaciones[j], id++);
-            }
-        }
-    }
+//
+//    public static void main(String[] args) {
+//        String[] estaciones = new String[]{"MADRID_1", "MADRID_2", "PARIS_1", "PARIS_2", "LISBOA", "LONDRES", "LYON", "MONTREAL"};
+//
+//        int id = 1;
+//        for (int i = 0; i < estaciones.length; i++) {
+//            for (int j = 0; j < estaciones.length; j++) {
+//                System.out.printf("private static final TestConexionNoUsar %s_TO_%s=TestConexionNoUsar.conexion(EST_%s,EST_%s,%d);\n",
+//                        estaciones[i], estaciones[j], estaciones[i], estaciones[j], id++);
+//            }
+//        }
+//    }
 
 
     private static final AuxTestConexionNoUsar MADRID_1_TO_MADRID_1 = AuxTestConexionNoUsar.conexion(EST_MADRID_1, EST_MADRID_1, 1);

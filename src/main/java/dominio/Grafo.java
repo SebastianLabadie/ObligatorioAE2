@@ -1,9 +1,7 @@
 package dominio;
 
-import Exceptions.DuplicadoExcpetion;
-import Exceptions.GrafoFullException;
-import Exceptions.IndiceDestinoException;
-import Exceptions.IndiceOrigenException;
+import Exceptions.*;
+import org.w3c.dom.events.EventTarget;
 
 public class Grafo {
     private class Aristas{
@@ -46,8 +44,6 @@ public class Grafo {
         if (largo < maxV){
             //TO-DO revisar que no este repetido el vertice
             for (int i = 0; i < vertices.length; i++) {
-                System.out.println("i "+i);
-                System.out.println("i "+vertices[i].toString());
                 if (vertices[i].getCodigo().equals(vertice.getCodigo())) throw  new DuplicadoExcpetion();
             }
 
@@ -84,6 +80,25 @@ public class Grafo {
         }
 
         throw new MiException("No se encontro el indice");
+    }
+
+    public void actualizarArista(String codigoOrigen,String codigoDestino,Conexion conexion) throws IndiceDestinoException, IndiceOrigenException, NoExisteCaminoException {
+        int idxOrigen = buscarIndice(codigoOrigen,true);
+        int idxDestino = buscarIndice(codigoDestino,false);
+
+        //TO-DO A la lista generica hay que validarle que no este repetido con Contains
+        ListaGenerica<Conexion> listaRepetidos = this.aristas[idxOrigen][idxDestino].conexiones.filtrar(conexion1 -> conexion1.equals(conexion));
+        if (!listaRepetidos.esVacia()){
+            listaRepetidos.primero().setCodigoEstacionDestino(codigoDestino);
+            listaRepetidos.primero().setCodigoEstacionOrigen(codigoOrigen);
+            listaRepetidos.primero().setConexionId(conexion.getConexionId());
+            listaRepetidos.primero().setCosto(conexion.getCosto());
+            listaRepetidos.primero().setTiempo(conexion.getTiempo());
+            listaRepetidos.primero().setKilometros(conexion.getKilometros());
+            listaRepetidos.primero().setEstado(conexion.getEstado());
+        }else{
+            throw new NoExisteCaminoException();
+        }
     }
     public void agregarArista(String codigoOrigen,String codigoDestino,Conexion conexion) throws IndiceDestinoException, IndiceOrigenException, DuplicadoExcpetion {
         int idxOrigen = buscarIndice(codigoOrigen,true);
@@ -236,7 +251,8 @@ public class Grafo {
     }
 
 
-    public void imprimirBreadthFirstSearchConSaltos(String origen) throws IndiceDestinoException, IndiceOrigenException {
+    public void imprimirBreadthFirstSearchConSaltos(String origen,int cant,VisitorOrdenador<Estacion> visitor) throws IndiceDestinoException, IndiceOrigenException {
+//        imprimirMatrizAdyacencia();
         int vOrigen=buscarIndice(origen,true);
         //el primer integer es para guardar los vertices y el 2do es para la cantidad de niveles
         Cola<Tupla<Integer,Integer>> frontera =new Cola<>();
@@ -245,15 +261,21 @@ public class Grafo {
         while(!frontera.isEmpty()){
             Tupla<Integer,Integer> verticeFrontera= frontera.poll();
             int vExplorar=verticeFrontera.getUno();
-            if(!visitados[vExplorar]){
+            int saltos = verticeFrontera.getDos();
+
+            if(!visitados[vExplorar] && saltos <= cant){
                 visitados[vExplorar]=true;
                 System.out.println(verticeFrontera.getDos()+"--"+ vertices[vExplorar].getNombre());
+                visitor.visitar(this.vertices[vExplorar]);
+                
                 for (int vDestino = 0; vDestino < maxV; vDestino++) {
                     if(esAdyacente(vExplorar,vDestino)){
-                        frontera.add(new Tupla(vDestino,verticeFrontera.getDos()+1));
+                        frontera.add(new Tupla(vDestino,saltos+1));
                     }
                 }
             }
+
+
 
         }
     }
