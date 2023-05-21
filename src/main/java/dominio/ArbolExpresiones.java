@@ -5,6 +5,7 @@ import java.util.Stack;
 public class ArbolExpresiones {
 
     enum TipoOp{
+        //Cambiar AND OR 
         Multiplicar('*'),
         Sumar('+'),
         Restar('-'),
@@ -120,6 +121,7 @@ public class ArbolExpresiones {
             int valorSubExpresionIzq = calcularResultadoRec(nodoAct.izq);
             int valorSubExpresionDer = calcularResultadoRec(nodoAct.der);
 
+            //Cambiarlo por busqueda de pasajeros
             switch (nodoAct.tipoOp){
                 case Sumar:
                     return  valorSubExpresionIzq+valorSubExpresionDer;

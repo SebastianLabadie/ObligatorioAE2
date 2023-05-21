@@ -5,6 +5,9 @@ import Exceptions.NumeroNegativoException;
 import Exceptions.VacioException;
 import interfaz.Nacionalidad;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Pasajero implements Comparable<Pasajero> {
 
 
@@ -36,23 +39,32 @@ public class Pasajero implements Comparable<Pasajero> {
     }
 
     public void validarIdentificacion() throws FormatoIdException {
-        if (this.identificadorPasajero.length() < 8) {
-            throw new FormatoIdException();
-        }
 
-        String codigoNacionalidad = this.identificadorPasajero.substring(0, 2);
-        String numero = this.identificadorPasajero.substring(2);
+        //(CodigoNacionalidad)P.NNN.NNN#N
+        //(CodigoNacionalidad)PNN.NNN#N
 
-        if (!codigoNacionalidad.matches("(FR|DE|UK|ES|OT)")) {
-            throw new FormatoIdException();
-        }
-
-        if (!numero.matches("^[1-9]\\d{0,2}(\\.\\d{3})*#\\d$")) {
-            throw new FormatoIdException();
-        }
-
+        Pattern patter=Pattern.compile("^(FR|DE|UK|ES|OT)([1-9]\\.[0-9]{3}|[1-9][0-9]{2})(\\.[0-9]{3})(#[0-9]{1})$");
+        Matcher matcher = patter.matcher(identificadorPasajero);
+        if(!matcher.find()) throw new FormatoIdException();
+//            System.out.println("Matcheo: "+matcher.group());
+//
+//            System.out.println("G1:"+matcher.group(1));
+//            System.out.println("G2:"+matcher.group(2));
+//            System.out.println("G3:"+matcher.group(3));
+//            System.out.println("G4:"+matcher.group(4));
     }
 
+//    public static void main(String[] args) throws FormatoIdException {
+//        Pasajero pasajero = new Pasajero("FR10#2");
+//        pasajero= new Pasajero("FR102#2");
+//        pasajero= new Pasajero("FR10.222.233#2");
+//        pasajero= new Pasajero("FR1.456.999#1");
+//        pasajero= new Pasajero("UK456.222#2");
+//        //(#\.[0-9]{1})
+////        pasajero= new Pasajero("FR1.022yayayayyaES2.222");
+//        pasajero.validarIdentificacion();
+//
+//    }
 
     @Override
     public int compareTo(Pasajero o) {

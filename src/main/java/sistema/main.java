@@ -2,9 +2,12 @@ package sistema;
 
 import dominio.ArbolExpresiones;
 import dominio.Pasajero;
+import interfaz.Consulta;
 import interfaz.EstadoCamino;
 import interfaz.Nacionalidad;
 import interfaz.Retorno;
+
+import java.util.function.Predicate;
 
 public class main {
     private static final String MADRID_1 = "MAD001";
@@ -15,6 +18,7 @@ public class main {
     private static final String LYON = "LYO001";
     private static final String LISBOA = "LIS001";
     private static final String LONDRES = "AAA002";
+
 
 
     public static void main(String[] args) {
@@ -34,6 +38,10 @@ public class main {
 
         r = is.registrarPasajero("DE234.233#1","Ana",22);
         System.out.println(r.getValorString());
+
+        Consulta consulta = Consulta.fromString("[nombre ='Pepe'] OR [[edad>15] AND [nacionalidad='DE']]");
+        System.out.println(consulta.toUrl());
+        is.filtrarPasajeros(consulta);
 
 
 

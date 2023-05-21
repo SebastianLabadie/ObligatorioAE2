@@ -246,7 +246,7 @@ public class Grafo {
     }
 
 
-    public void imprimirBreadthFirstSearchConSaltos(String origen,int cant,VisitorOrdenador<Estacion> visitor) throws IndiceDestinoException, IndiceOrigenException {
+    public void imprimirBreadthFirstSearchConSaltos(String origen,int cant,Visitor<Estacion> visitor) throws IndiceDestinoException, IndiceOrigenException {
 //        imprimirMatrizAdyacencia();
         int vOrigen=buscarIndice(origen,true);
         //el primer integer es para guardar los vertices y el 2do es para la cantidad de niveles

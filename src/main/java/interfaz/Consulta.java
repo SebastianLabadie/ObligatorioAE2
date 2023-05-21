@@ -1,5 +1,7 @@
 package interfaz;
 
+import dominio.VisualizadorGraphViz;
+
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -37,6 +39,9 @@ public class Consulta {
             this.simboloEsperado = simboloEsperado;
             this.esNumerico = esNumerico;
         }
+    }
+    public String toUrl(){
+        return VisualizadorGraphViz.arbolBinToUrl(raiz,raiz->raiz.tipoNodoConsulta,r->r.izq,r->r.der);
     }
 
 
@@ -76,6 +81,10 @@ public class Consulta {
 
         public TipoNodoConsulta getTipoNodoConsulta() {
             return tipoNodoConsulta;
+        }
+
+        public Nacionalidad getValorNacionalidad() {
+            return valorNacionalidad;
         }
 
         public int getValorInt() {
