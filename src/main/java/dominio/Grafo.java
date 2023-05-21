@@ -86,7 +86,6 @@ public class Grafo {
         int idxOrigen = buscarIndice(codigoOrigen,true);
         int idxDestino = buscarIndice(codigoDestino,false);
 
-        //TO-DO A la lista generica hay que validarle que no este repetido con Contains
         ListaGenerica<Conexion> listaRepetidos = this.aristas[idxOrigen][idxDestino].conexiones.filtrar(conexion1 -> conexion1.equals(conexion));
         if (!listaRepetidos.esVacia()){
             listaRepetidos.primero().setCodigoEstacionDestino(codigoDestino);
@@ -104,12 +103,8 @@ public class Grafo {
         int idxOrigen = buscarIndice(codigoOrigen,true);
         int idxDestino = buscarIndice(codigoDestino,false);
 
-        //TO-DO A la lista generica hay que validarle que no este repetido con Contains
-       ListaGenerica<Conexion> listaRepetidos = this.aristas[idxOrigen][idxDestino].conexiones.filtrar(conexion1 -> conexion1.equals(conexion));
-       if (!listaRepetidos.esVacia()) throw new DuplicadoExcpetion();
+        if (this.aristas[idxOrigen][idxDestino].conexiones.contains(conexion)) throw new DuplicadoExcpetion();
 
-
-        //if this.aristas[idxOrigen][idxDestino].contains(carretera) throw duplicado
         this.aristas[idxOrigen][idxDestino].conexiones.agregarInicio(conexion);
 
     }
@@ -267,7 +262,7 @@ public class Grafo {
                 visitados[vExplorar]=true;
                 System.out.println(verticeFrontera.getDos()+"--"+ vertices[vExplorar].getNombre());
                 visitor.visitar(this.vertices[vExplorar]);
-                
+
                 for (int vDestino = 0; vDestino < maxV; vDestino++) {
                     if(esAdyacente(vExplorar,vDestino)){
                         frontera.add(new Tupla(vDestino,saltos+1));

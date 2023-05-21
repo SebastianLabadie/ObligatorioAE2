@@ -99,6 +99,20 @@ public class ListaGenerica<T> {
         }
     }
 
+    public boolean contains(T dato) {
+        return containsRec(inicio, dato);
+    }
+
+    private boolean containsRec(NodoLista nodoActual, T dato) {
+        if (nodoActual == null) {
+            return false;
+        } else if (nodoActual.dato.equals(dato)) {
+            return true;
+        } else {
+            return containsRec(nodoActual.sig, dato);
+        }
+    }
+
     public T primero(){
         return inicio.dato;
     }

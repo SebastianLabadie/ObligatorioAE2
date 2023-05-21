@@ -9,6 +9,12 @@ import java.util.function.Predicate;
 public class ImplementacionSistema implements Sistema {
 
     public ABB<Pasajero> arbolPasajeros;
+    public ListaGenerica<Pasajero> listaPasajerosFR;
+    public ListaGenerica<Pasajero> listaPasajerosDE;
+    public ListaGenerica<Pasajero> listaPasajerosUK;
+    public ListaGenerica<Pasajero> listaPasajerosES;
+    public ListaGenerica<Pasajero> listaPasajerosOT;
+
     public Grafo grafoEstaciones;
 
     @Override
@@ -34,7 +40,11 @@ public class ImplementacionSistema implements Sistema {
 
         this.arbolPasajeros = new ABB<Pasajero>();
         this.grafoEstaciones = new Grafo(maxEstaciones);
-
+        this.listaPasajerosFR = new ListaGenerica<>();
+        this.listaPasajerosDE = new ListaGenerica<>();
+        this.listaPasajerosES = new ListaGenerica<>();
+        this.listaPasajerosOT = new ListaGenerica<>();
+        this.listaPasajerosUK = new ListaGenerica<>();
 
         return Retorno.ok();
     }
@@ -49,7 +59,8 @@ public class ImplementacionSistema implements Sistema {
 
             nuevoPasajero.validarIdentificacion();
             arbolPasajeros.insertarDato(nuevoPasajero);
-//           arbolPasajeros.imprimir();
+            registrarPasajeroPorNacionalidad(nuevoPasajero);
+
         }catch (FormatoIdException e) {
             return Retorno.error2("El identificador no tiene el formato válido");
         }
@@ -60,6 +71,31 @@ public class ImplementacionSistema implements Sistema {
         }
 
         return Retorno.ok();
+    }
+
+    private void registrarPasajeroPorNacionalidad(Pasajero nuevoPasajero) {
+       ListaGenerica<Pasajero> lista = obtenerListaPorNacionalidadPasajero(nuevoPasajero.getNacionalidad());
+
+       lista.agregarFinal(nuevoPasajero);
+    }
+
+    private ListaGenerica<Pasajero> obtenerListaPorNacionalidadPasajero(Nacionalidad nacionalidad) {
+        switch (nacionalidad){
+            case Espania -> {
+                return listaPasajerosES;
+            }
+            case ReinoUnido -> {
+                return listaPasajerosUK;
+            }
+            case Alemania -> {
+                return listaPasajerosDE;
+            }
+            case Francia -> {
+                return listaPasajerosFR;
+            }
+        }
+
+        return listaPasajerosOT;
     }
 
     @Override
@@ -105,7 +141,12 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno listarPasajerosPorNacionalidad(Nacionalidad nacionalidad) {
-        return Retorno.noImplementada();
+        if (nacionalidad == null){
+            return Retorno.error1("Nacionalidad nula");
+        }
+
+        ListaGenerica<Pasajero> lista =  obtenerListaPorNacionalidadPasajero(nacionalidad);
+        return Retorno.ok(lista.toString());
     }
 
     @Override

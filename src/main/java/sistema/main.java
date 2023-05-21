@@ -1,5 +1,6 @@
 package sistema;
 
+import dominio.ArbolExpresiones;
 import dominio.Pasajero;
 import interfaz.EstadoCamino;
 import interfaz.Nacionalidad;
@@ -17,6 +18,11 @@ public class main {
 
 
     public static void main(String[] args) {
+        ArbolExpresiones expresiones= ArbolExpresiones.parsear("((23+3)*4)+(2*5)-23");
+
+        System.out.println(expresiones.toString());
+        System.out.println(expresiones.calcularResultado());
+
         ImplementacionSistema is = new ImplementacionSistema();
         is.inicializarSistema(6);
 
