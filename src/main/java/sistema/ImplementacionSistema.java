@@ -4,8 +4,6 @@ import Exceptions.*;
 import dominio.*;
 import interfaz.*;
 
-import java.util.function.Predicate;
-
 public class ImplementacionSistema implements Sistema {
 
     public ABB<Pasajero> arbolPasajeros;
@@ -100,7 +98,17 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno filtrarPasajeros(Consulta consulta) {
-        return Retorno.noImplementada();
+        if (consulta == null) return Retorno.error1("Consulta nula");
+
+        VisitorListaFinPasajero<Pasajero> lista = new VisitorListaFinPasajero<>();
+        PredicadoJugadores predicado = new PredicadoJugadores(consulta.getRaiz());
+        this.arbolPasajeros.filtrar(lista,predicado);
+
+//        System.out.println("ola k ase");
+//        System.out.println(lista.toString());
+//        System.out.println("ola k ase");
+
+        return Retorno.ok(lista.toString());
     }
 
     @Override
@@ -110,8 +118,8 @@ public class ImplementacionSistema implements Sistema {
 
             Tupla<Pasajero,Integer> pasajeroFiltrado = arbolPasajeros.buscarDatoRet(pasajeroABuscar);
             if (pasajeroFiltrado == null){
-                System.out.println(identificador);
-                System.out.println("error 2");
+//                System.out.println(identificador);
+//                System.out.println("error 2");
                 return Retorno.error2("No existe un pasajero registrado con ese identificador");
             }
 
@@ -128,14 +136,14 @@ public class ImplementacionSistema implements Sistema {
     @Override
     public Retorno listarPasajerosAscendente() {
         VisitorListaFin<Pasajero> lista = new VisitorListaFin<Pasajero>();
-        arbolPasajeros.ListarInOrder(lista);
+        arbolPasajeros.listarInOrder(lista);
         return Retorno.ok(lista.toString());
     }
 
     @Override
     public Retorno listarPasajerosDescendente() {
         VisitorListaIni<Pasajero> lista = new VisitorListaIni<Pasajero>();
-        arbolPasajeros.ListarInOrder(lista);
+        arbolPasajeros.listarInOrder(lista);
         return Retorno.ok(lista.toString());
     }
 
@@ -235,7 +243,7 @@ public class ImplementacionSistema implements Sistema {
             this.grafoEstaciones.imprimirBreadthFirstSearchConSaltos(codigo,cantidad,arbolEstacion);
 
 
-            arbolEstacion.getElArbol().ListarInOrder(listaEstaciones);
+            arbolEstacion.getElArbol().listarInOrder(listaEstaciones);
             System.out.println(arbolEstacion.getElArbol().toString());
             System.out.println("resultado: "+listaEstaciones.toString());
 

@@ -2,8 +2,9 @@ package dominio;
 
 import Exceptions.DuplicadoExcpetion;
 
-import java.lang.reflect.Type;
 import java.util.Objects;
+import java.util.function.Predicate;
+
 import interfaz .*;
 public class ABB<T extends Comparable<T>>  {
 
@@ -59,25 +60,6 @@ public class ABB<T extends Comparable<T>>  {
         return nodo!=null && (nodo.izq==null && nodo.der==null);
     }
 
-//    public int min(){
-//        return minREC(raiz);
-//    }
-//
-//    private int minREC(NodoArbol actual){
-//        if(actual == null) return Integer.MAX_VALUE; //neutro del minimo para que en la comparacion se quede con el menor
-//
-//        int valor = actual.dato;
-//        int minDeIzq = minREC(actual.izq);
-//        int minDeDer = minREC(actual.der);
-//        int combinacionIzq = minimo(valor,minDeIzq);
-//
-//        return minimo(combinacionIzq,minDeDer);
-//    }
-
-    private int minimo(int valor, int minDeIzq) {
-        return Math.min(valor,minDeIzq);
-    }
-
     public int cantHojas(){
         return cantHojasREC(raiz);
     }
@@ -117,39 +99,6 @@ public class ABB<T extends Comparable<T>>  {
         }
     }
 
-    public void insetarLargo(T dato, NodoABB nodoAct) throws DuplicadoExcpetion {
-        Objects.requireNonNull(nodoAct);
-
-        if (dato.compareTo(nodoAct.dato) > 0){ //Esto hay que pasarlo a predicate
-            if (nodoAct.der == null){
-                nodoAct.der = new NodoABB(dato);
-            }else
-            {
-                insetarLargo(dato,nodoAct.der);
-            }
-        }
-        //elseif
-        else if (dato.compareTo(nodoAct.dato) < 0) {
-            if (nodoAct.izq == null){
-                nodoAct.izq = new NodoABB(dato);
-            }else
-            {
-                insetarLargo(dato,nodoAct.izq);
-            }
-        }
-        //es igual
-        else{
-            throw new DuplicadoExcpetion();
-        }
-    }
-
-    //Lista generica con doble cabezal inicio y fin agregar ini agregar fin toString
-    //ABB Generico
-        //Filtrar predicate o herencia
-
-    //Grafos
-
-
     public void insertarDato(T dato) throws DuplicadoExcpetion {
         this.raiz =  insertarCorto(dato,this.raiz);
     }
@@ -166,65 +115,26 @@ public class ABB<T extends Comparable<T>>  {
         return nodoAct;
     }
 
+
+
     //Recorridas (profundidad(inorder,)-anchura)
     //Forma sistematica de recorrer los nodos de un arbol
 
-    public void imprimir(){
-        inOrder(raiz);
-        System.out.println("-------------");
 
-//        preOrder(raiz);
-//        System.out.println("-------------");
-//
-//        postOrder(raiz);
-//        System.out.println("-------------");
+    public void listarInOrder(Visitor<T> visitor){
+
+        listarInOrderRec(raiz,visitor);
     }
-
-    public void ListarInOrder (Visitor<T> visitor){
-
-        ListarInOrderRec(raiz,visitor);
-    }
-    private void ListarInOrderRec (NodoABB nodoAct,Visitor<T> visitor){
+    private void listarInOrderRec(NodoABB nodoAct, Visitor<T> visitor){
 
         if (nodoAct != null){
-            ListarInOrderRec(nodoAct.izq,visitor);
+            listarInOrderRec(nodoAct.izq,visitor);
             visitor.visitar(nodoAct.dato);
-            ListarInOrderRec(nodoAct.der,visitor);
+            listarInOrderRec(nodoAct.der,visitor);
         }
     }
 
-    private void inOrder (NodoABB nodoAct){
-        if (nodoAct != null){
-            inOrder(nodoAct.izq);
-            System.out.println(nodoAct.dato);
-            inOrder(nodoAct.der);
-        }
-    }
 
-    private void preOrder (NodoABB nodoAct){
-        if (nodoAct != null){
-            System.out.println(nodoAct.dato);
-            preOrder(nodoAct.izq);
-            preOrder(nodoAct.der);
-        }
-    }
-    private void postOrder (NodoABB nodoAct){
-        if (nodoAct != null){
-            postOrder(nodoAct.izq);
-            postOrder(nodoAct.der);
-            System.out.println(nodoAct.dato);
-        }
-    }
-
-    //Busquedas
-    //5 y 6 de obligatorio se hace con in order
-    //arbol de expresiones 3 del obligatorio pos order
-    //arbol generico pal ob
-    //predicado para el filtrado de pasajeros
-    //da mas puntos al que hizo arbol generico
-    //ver video de generics y predicate
-    //arboles es la primera mitad del ob
-    //grafos es la segunda mitad del ob/asdasd
 
     public boolean buscarDato(T dato){
         return buscarDatoREC(dato,raiz);
@@ -283,12 +193,21 @@ public class ABB<T extends Comparable<T>>  {
         return true;
     }
 
-    public void imprimirNivel(){
-        //To-Do asd
+    public void filtrar(Visitor<T> visitor,Predicate<T> predicado) {
+        filtrarRec(raiz,visitor,predicado);
     }
 
+    private void filtrarRec(NodoABB nodoAct, Visitor<T> visitor, Predicate<T> predicado) {
+        if (nodoAct ==null){
 
-
+        }else{
+            filtrarRec(nodoAct.izq,visitor,predicado);
+            if (predicado.test(nodoAct.dato)){
+                visitor.visitar(nodoAct.dato);
+            }
+            filtrarRec(nodoAct.der,visitor,predicado);
+        }
+    }
 
 
     public String toString(){

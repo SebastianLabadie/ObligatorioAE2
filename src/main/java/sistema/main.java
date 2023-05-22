@@ -28,9 +28,9 @@ public class main {
         System.out.println(expresiones.calcularResultado());
 
         ImplementacionSistema is = new ImplementacionSistema();
-        is.inicializarSistema(6);
+        Retorno r = is.inicializarSistema(6);
 
-        Retorno r = is.registrarPasajero("FR1.234.233#1","Alberto",22);
+        r = is.registrarPasajero("FR1.234.233#1","Alberto",22);
         System.out.println(r.getValorString());
 
         r =is.registrarPasajero("DE5.232.222#1","Jorge",22);
@@ -39,9 +39,9 @@ public class main {
         r = is.registrarPasajero("DE234.233#1","Ana",22);
         System.out.println(r.getValorString());
 
-        Consulta consulta = Consulta.fromString("[nombre ='Pepe'] OR [[edad>15] AND [nacionalidad='DE']]");
-        System.out.println(consulta.toUrl());
-        is.filtrarPasajeros(consulta);
+        Consulta consulta = Consulta.fromString("[edad>15]");
+//        System.out.println(consulta.toUrl());
+
 
 
 
@@ -60,12 +60,17 @@ public class main {
         System.out.println("Cantidad de recorridas:"+r.getValorInteger().toString() +" valor:"+r.getValorString());
 
 
+
+
         r =is.listarPasajerosAscendente();
         System.out.println("PASAJEROS:  "+r.getValorString());
 
         r =is.listarPasajerosDescendente();
         System.out.println("PASAJEROS Descendente:  "+r.getValorString());
 
+
+        r= is.filtrarPasajeros(consulta);
+        System.out.println("Consulta: "+r.getValorString());
 
         for (int i = 0; i < 6; i++) {
           is.registrarEstacionDeTren("AAA00" + i, "Un nombre valido");
