@@ -259,12 +259,57 @@ public class ImplementacionSistema implements Sistema {
 
     @Override
     public Retorno viajeCostoMinimoKilometros(String codigoEstacionOrigen, String codigoEstacionDestino) {
-        return Retorno.noImplementada();
+        try {
+            Estacion estacionTemp = Estacion.of(codigoEstacionOrigen,"asdasd");
+            estacionTemp.Validar();
+
+            Estacion estacionTemp2 = Estacion.of(codigoEstacionDestino,"asdasd");
+            estacionTemp2.Validar();
+
+            Tupla<ListaGenerica<Estacion>,Double> tupla= grafoEstaciones.dijsktra(codigoEstacionOrigen,codigoEstacionDestino,c -> c.getKilometros());
+            System.out.println(tupla.getUno());
+            System.out.println(tupla.getDos());
+
+            return Retorno.ok(tupla.getDos().intValue(),tupla.getUno().toString());
+        } catch (IndiceDestinoException e) {
+            return Retorno.error5("No existe destino");
+        } catch (IndiceOrigenException e) {
+            return Retorno.error4("No existe origen");
+        } catch (VacioException e) {
+            return Retorno.error1("Alguno de los códigos es vacío o null.");
+        } catch (FormatoIdException e) {
+            return Retorno.error2("Alguno de los códigos de estacion no es válido.");
+        } catch (NoExisteCaminoException e) {
+            return Retorno.error3("No hay camino entre origen y destino");
+        }
+
     }
 
     @Override
     public Retorno viajeCostoMinimoEuros(String codigoEstacionOrigen, String codigoEstacionDestino) {
-        return null;
+        try {
+            Estacion estacionTemp = Estacion.of(codigoEstacionOrigen,"asdasd");
+            estacionTemp.Validar();
+
+            Estacion estacionTemp2 = Estacion.of(codigoEstacionDestino,"asdasd");
+            estacionTemp2.Validar();
+
+            Tupla<ListaGenerica<Estacion>,Double> tupla= grafoEstaciones.dijsktra(codigoEstacionOrigen,codigoEstacionDestino,c -> c.getCosto());
+            System.out.println(tupla.getUno());
+            System.out.println(tupla.getDos());
+
+            return Retorno.ok(tupla.getDos().intValue(),tupla.getUno().toString());
+        } catch (IndiceDestinoException e) {
+            return Retorno.error5("No existe destino");
+        } catch (IndiceOrigenException e) {
+            return Retorno.error4("No existe origen");
+        } catch (VacioException e) {
+            return Retorno.error1("Alguno de los códigos es vacío o null.");
+        } catch (FormatoIdException e) {
+            return Retorno.error2("Alguno de los códigos de estacion no es válido.");
+        } catch (NoExisteCaminoException e) {
+            return Retorno.error3("No hay camino entre origen y destino");
+        }
     }
 
 }

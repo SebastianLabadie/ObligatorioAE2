@@ -10,14 +10,14 @@ import interfaz.Retorno;
 import java.util.function.Predicate;
 
 public class main {
-    private static final String MADRID_1 = "MAD001";
+    private static final String MADRID_1 = "AAA002";
     private static final String MADRID_2 = "AAA001";
-    private static final String PARIS_1 = "PAR001";
+    private static final String PARIS_1 = "AAA004";
     private static final String PARIS_2 = "PAR001";
     private static final String MONTREAL = "MON001";
     private static final String LYON = "LYO001";
     private static final String LISBOA = "LIS001";
-    private static final String LONDRES = "AAA002";
+    private static final String LONDRES = "AAA003";
 
 
 
@@ -76,10 +76,14 @@ public class main {
           is.registrarEstacionDeTren("AAA00" + i, "Un nombre valido");
         }
 
-        r = is.registrarConexion(MADRID_2, LONDRES, 1, 100, 20, 300, EstadoCamino.BUENO);
+        r = is.registrarConexion(MADRID_1, LONDRES, 1, 100, 20, 300, EstadoCamino.BUENO);
         System.out.println("asd:  "+r.getResultado());
 
-        r = is.registrarConexion(MADRID_2, LONDRES, 1, 100, 20, 300, EstadoCamino.BUENO);
+        r = is.registrarConexion(LONDRES, MADRID_2, 1, 100, 20, 200, EstadoCamino.BUENO);
         System.out.println("asd2:  "+r.getResultado());
+
+        r = is.viajeCostoMinimoKilometros(MADRID_1, MADRID_2);
+        System.out.println("asd3:  "+r.getResultado());
+
     }
 }

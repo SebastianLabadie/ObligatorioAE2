@@ -1,7 +1,7 @@
 package dominio;
 
 import Exceptions.*;
-import org.w3c.dom.events.EventTarget;
+import interfaz.EstadoCamino;
 
 public class Grafo {
     private class Aristas{
@@ -275,6 +275,99 @@ public class Grafo {
         }
     }
 
+
+    public Tupla<ListaGenerica<Estacion>,Double> dijsktra(String origen,String destino, Valor<Conexion> obtenerValor ) throws IndiceDestinoException, IndiceOrigenException, VacioException, NoExisteCaminoException {
+        Validador.noVacio(origen);
+        Validador.noVacio(destino);
+        int vOrigen=buscarIndice(origen,true);
+        int vDestino=buscarIndice(destino,false);
+
+        boolean[] visitados=new boolean[maxV];
+        double[] costos=new double[maxV];
+        int[] padres=new int[maxV];
+
+        //inicializar valores
+        for (int i = 0; i < maxV; i++) {
+            costos[i]=Double.MAX_VALUE;
+            padres[i]=-1;
+            visitados[i]=false;
+        }
+
+        costos[vOrigen]=0;
+        padres[vOrigen]=vOrigen;
+
+
+        //funcion
+        while(!estaTodoVisitado(visitados,padres)){
+            int vExplorar = verticeMasChico(visitados,costos,padres);
+            for (int vAdyacente = 0; vAdyacente < maxV; vAdyacente++) {
+                if (esAdyacente(vExplorar,vAdyacente)){
+                    double costoHastaAdyacente = costos[vExplorar]+getCosto(aristas[vExplorar][vAdyacente].conexiones,obtenerValor);
+                    System.out.println("costos ex "+costos[vExplorar]);
+                    System.out.println("costoAdy "+costoHastaAdyacente);
+                    System.out.println("costos[vAdyacente] "+ vAdyacente+" - "+costos[vAdyacente]);
+                    if (costoHastaAdyacente<costos[vAdyacente]){
+                        costos[vAdyacente] = costoHastaAdyacente;
+                        padres[vAdyacente]= vExplorar;
+                    }
+                }
+            }
+
+            visitados[vExplorar]=true;
+        }
+
+        //reconstruir camino
+        System.out.println("el costo es "+costos[vDestino]);
+        return reconstruirCamino(padres,vOrigen,vDestino,costos);
+    }
+
+    private Tupla<ListaGenerica<Estacion>, Double> reconstruirCamino(int[] padres, int vOrigen, int vDestino,double[] costos) throws NoExisteCaminoException {
+      if (padres[vDestino]==-1) throw new NoExisteCaminoException();
+       int actual=vDestino;
+       Tupla<ListaGenerica<Estacion>, Double> ret = new Tupla<>(new ListaGenerica<>(),1.0);
+
+       while(actual!=vOrigen){
+//           System.out.println("actual "+actual);
+           ret.getUno().agregarInicio(vertices[actual]);
+           actual=padres[actual];
+       }
+       ret.getUno().agregarInicio(vertices[vOrigen]);
+       ret.setDos(costos[vDestino]);
+//       System.out.println("ret "+ret.toString());
+       return ret;
+    }
+
+    private double getCosto(ListaGenerica<Conexion> conexiones, Valor<Conexion> obtenerValor) {
+        ListaGenerica<Conexion> conexionesBuenas = conexiones.filtrar(c->c.getEstado()!= EstadoCamino.MALO);
+//       System.out.println("conexiones buenas - "+conexionesBuenas.toString());
+       if (conexionesBuenas.esVacia()) return Double.MAX_VALUE; //Si no hay conexiones buenas entre el origen y el destino dejamos el costo como maximo
+        conexionesBuenas.ordenarPorAtributo(obtenerValor);
+        return conexionesBuenas.primero().devolverAtributoDinamico(obtenerValor);
+    }
+
+    private int verticeMasChico(boolean[] visitados, double[] costos, int[] padres) {
+        double minCosto=Integer.MAX_VALUE;
+        int minIdx=0;
+
+        for (int i = 0; i < maxV; i++) {
+            if (!visitados[i]){
+                if (costos[i] < minCosto){
+                    minCosto=costos[i];
+                    minIdx=i;
+                }
+            }
+        }
+
+        return minIdx;
+    }
+
+    private boolean estaTodoVisitado(boolean[] visitados, int[] padres) {
+        for (int i = 0; i < maxV; i++) {
+            if (!visitados[i] && padres[i]>=0) return false;
+        }
+
+        return true;
+    }
 
    /* public String toUrl(){
         return VisualizadorGraphViz.grafoToUrl(vertices,aristas,

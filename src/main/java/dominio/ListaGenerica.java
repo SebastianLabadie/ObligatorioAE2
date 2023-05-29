@@ -113,6 +113,39 @@ public class ListaGenerica<T> {
         }
     }
 
+    public double sumaAtributo(Valor<T> atributo){
+        return sumaAtributoRec(inicio,atributo);
+    }
+
+    private double sumaAtributoRec(NodoLista nodoActual ,Valor<T> atributo) {
+        if (nodoActual==null) return  0;
+
+        return atributo.valor(nodoActual.dato) + sumaAtributoRec(nodoActual.sig,atributo);
+    }
+
+    public void ordenarPorAtributo(Valor<T> atributo) {
+        if (inicio == null || inicio.sig == null) {
+            return;
+        }
+
+        boolean intercambiado;
+        do {
+            intercambiado = false;
+            NodoLista actual = inicio;
+            NodoLista siguiente = inicio.sig;
+            while (siguiente != null) {
+                if (atributo.valor(actual.dato) > atributo.valor(siguiente.dato)) {
+                    T temp = actual.dato;
+                    actual.dato = siguiente.dato;
+                    siguiente.dato = temp;
+                    intercambiado = true;
+                }
+                actual = siguiente;
+                siguiente = siguiente.sig;
+            }
+        } while (intercambiado);
+    }
+
     public T primero(){
         return inicio.dato;
     }

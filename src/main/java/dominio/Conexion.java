@@ -103,10 +103,27 @@ public class Conexion {
         return new Conexion(Validador.noVacio(codigoEstacionOrigen),Validador.noVacio(codigoEstacionDestino),Validador.positivo(conexionId),Validador.positivo(costo),Validador.positivo(tiempo),Validador.positivo(kilometros),estado);
     }
 
+    public double devolverAtributoDinamico(Valor<Conexion> atributo){
+        return atributo.valor(this);
+    }
+
 
     @Override
     public boolean equals(Object obj) {
         Conexion miCon = (Conexion) obj;
-        return this.codigoEstacionDestino == miCon.codigoEstacionDestino && this.codigoEstacionOrigen == miCon.codigoEstacionOrigen && this.ConexionId == miCon.ConexionId;
+        return  this.ConexionId == miCon.ConexionId;
+    }
+
+    @Override
+    public String toString() {
+        return "Conexion{" +
+                "codigoEstacionOrigen='" + codigoEstacionOrigen + '\'' +
+                ", codigoEstacionDestino='" + codigoEstacionDestino + '\'' +
+                ", ConexionId=" + ConexionId +
+                ", Costo=" + Costo +
+                ", Tiempo=" + Tiempo +
+                ", Kilometros=" + Kilometros +
+                ", Estado=" + Estado +
+                '}';
     }
 }
