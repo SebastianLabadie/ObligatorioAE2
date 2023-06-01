@@ -70,18 +70,6 @@ public class Grafo {
             throw new IndiceDestinoException();
         }
     }
-
-    public int buscarIndiceNombre(
-            String nombreCiudad,
-            boolean esOrigen
-    ) throws MiException {
-        for (int i = 0; i < vertices.length-1; i++) {
-            if (vertices[i].getNombre().equals(nombreCiudad)) return i;
-        }
-
-        throw new MiException("No se encontro el indice");
-    }
-
     public void actualizarArista(String codigoOrigen,String codigoDestino,Conexion conexion) throws IndiceDestinoException, IndiceOrigenException, NoExisteCaminoException {
         int idxOrigen = buscarIndice(codigoOrigen,true);
         int idxDestino = buscarIndice(codigoDestino,false);
@@ -111,45 +99,45 @@ public class Grafo {
 
     public void imprimirMatriz (){
         for (int i = 0; i < maxV; i++) {
-            System.out.print(vertices[i]!= null ? vertices[i].getNombre(): "  ");
+//            System.out.print(vertices[i]!= null ? vertices[i].getNombre(): "  ");
         }
-        System.out.print("  ");
+//        System.out.print("  ");
 
 
         for (int fila = 0; fila < aristas.length; fila++) {
             if (vertices[fila]!=null){
-                System.out.print(vertices);
+//                System.out.print(vertices);
             }else{
 
             }
 
 
             for (int columna = 0; columna < aristas[fila].length; columna++) {
-                System.out.print(aristas[fila][columna].existe()? 1 : 0 + "  ");
+//                System.out.print(aristas[fila][columna].existe()? 1 : 0 + "  ");
             }
         }
     }
 
 
     public void imprimirMatrizAdyacencia() {
-        System.out.print("   ");
+//        System.out.print("   ");
         for (int i = 0; i <maxV; i++) {
-            System.out.print(vertices[i]!=null?vertices[i].getNombre():"  ");
-            System.out.print(" ");
+//            System.out.print(vertices[i]!=null?vertices[i].getNombre():"  ");
+//            System.out.print(" ");
         }
-        System.out.println();
+//        System.out.println();
         for (int vOrigen = 0; vOrigen <aristas.length; vOrigen++) {
             if(vertices[vOrigen]!=null){
-                System.out.print(vertices[vOrigen].getNombre());
+//                System.out.print(vertices[vOrigen].getNombre());
             }else{
-                System.out.print("  ");
+//                System.out.print("  ");
             }
-            System.out.print(" ");
+//            System.out.print(" ");
 
             for (int vDestino = 0; vDestino < aristas[vOrigen].length; vDestino++) {
-                System.out.print((aristas[vOrigen][vDestino].existe()?1:0)+"  ");
+//                System.out.print((aristas[vOrigen][vDestino].existe()?1:0)+"  ");
             }
-            System.out.println();
+//            System.out.println();
         }
     }
 
@@ -159,22 +147,22 @@ public class Grafo {
 
         for (int vDestino = 0; vDestino <maxV; vDestino++) {// itero fila de la matriz de adyacencia
             if(esAdyacente(idxOrigen, vDestino)){
-                System.out.println(vertices[vDestino].getNombre());
+//                System.out.println(vertices[vDestino].getNombre());
             }
         }
 
 
     }
     //los vertices con los que puedo llegar a el destino directamente
-    public void imprimirAdyacentesA(String destino) throws MiException,IndiceDestinoException, IndiceOrigenException {
-        int idxDestino=buscarIndice(destino,false);
-        for (int vOrigen = 0; vOrigen <maxV; vOrigen++) {//itero columna de la matriz de adyacencia
-            if(this.esAdyacente(vOrigen,idxDestino)){
-                System.out.println(vertices[vOrigen].getNombre());
-            }
-        }
-        throw new MiException("No tiene adyacentes");
-    }
+//    public void imprimirAdyacentesA(String destino) throws MiException,IndiceDestinoException, IndiceOrigenException {
+//        int idxDestino=buscarIndice(destino,false);
+//        for (int vOrigen = 0; vOrigen <maxV; vOrigen++) {//itero columna de la matriz de adyacencia
+//            if(this.esAdyacente(vOrigen,idxDestino)){
+////                System.out.println(vertices[vOrigen].getNombre());
+//            }
+//        }
+//        throw new MiException("No tiene adyacentes");
+//    }
 
     private boolean esAdyacente(int vOrigen, int vDestino) {
         return this.aristas[vOrigen][vDestino].existe();
@@ -189,7 +177,7 @@ public class Grafo {
     private void imprimirCosasALaQuePuedoLlegarRec(int idxActual, boolean[] visitados) {
         if(visitados[idxActual])return;
         //vistio la "raiz"
-        System.out.println(vertices[idxActual].getNombre());
+//        System.out.println(vertices[idxActual].getNombre());
         visitados[idxActual]=true;
 
         //visito los "hijos"
@@ -210,7 +198,7 @@ public class Grafo {
             int vExplorar= frontera.pop();
             if(!visitados[vExplorar]){
                 visitados[vExplorar]=true;
-                System.out.println(vertices[vExplorar].getNombre());
+//                System.out.println(vertices[vExplorar].getNombre());
                 for (int vDestino = 0; vDestino < maxV; vDestino++) {
                     if(esAdyacente(vExplorar,vDestino)){
                         frontera.push(vDestino);
@@ -232,7 +220,7 @@ public class Grafo {
             int vExplorar= frontera.poll();
             if(!visitados[vExplorar]){
                 visitados[vExplorar]=true;
-                System.out.println(vertices[vExplorar].getNombre());
+//                System.out.println(vertices[vExplorar].getNombre());
                 for (int vDestino = 0; vDestino < maxV; vDestino++) {
                     if(esAdyacente(vExplorar,vDestino)){
                         frontera.add(vDestino);
@@ -260,7 +248,7 @@ public class Grafo {
 
             if(!visitados[vExplorar] && saltos <= cant){
                 visitados[vExplorar]=true;
-                System.out.println(verticeFrontera.getDos()+"--"+ vertices[vExplorar].getNombre());
+//                System.out.println(verticeFrontera.getDos()+"--"+ vertices[vExplorar].getNombre());
                 visitor.visitar(this.vertices[vExplorar]);
 
                 for (int vDestino = 0; vDestino < maxV; vDestino++) {
@@ -303,9 +291,9 @@ public class Grafo {
             for (int vAdyacente = 0; vAdyacente < maxV; vAdyacente++) {
                 if (esAdyacente(vExplorar,vAdyacente)){
                     double costoHastaAdyacente = costos[vExplorar]+getCosto(aristas[vExplorar][vAdyacente].conexiones,obtenerValor);
-                    System.out.println("costos ex "+costos[vExplorar]);
-                    System.out.println("costoAdy "+costoHastaAdyacente);
-                    System.out.println("costos[vAdyacente] "+ vAdyacente+" - "+costos[vAdyacente]);
+//                    System.out.println("costos ex "+costos[vExplorar]);
+//                    System.out.println("costoAdy "+costoHastaAdyacente);
+//                    System.out.println("costos[vAdyacente] "+ vAdyacente+" - "+costos[vAdyacente]);
                     if (costoHastaAdyacente<costos[vAdyacente]){
                         costos[vAdyacente] = costoHastaAdyacente;
                         padres[vAdyacente]= vExplorar;
@@ -317,7 +305,7 @@ public class Grafo {
         }
 
         //reconstruir camino
-        System.out.println("el costo es "+costos[vDestino]);
+//        System.out.println("el costo es "+costos[vDestino]);
         return reconstruirCamino(padres,vOrigen,vDestino,costos);
     }
 
@@ -369,8 +357,8 @@ public class Grafo {
         return true;
     }
 
-   /* public String toUrl(){
+    public String toUrl(){
         return VisualizadorGraphViz.grafoToUrl(vertices,aristas,
-                a->a.existe(),v->v.getNombre(),a->a.conexiones.getNombre()+"");
-    }*/
+                a->a.existe(),v->v.getNombre(),a->a.conexiones.toString()+"");
+    }
 }

@@ -15,7 +15,7 @@ public class VisitorOrdenador<T extends Comparable<T>> implements Visitor<T> {
         try {
             elArbol.insertarDato(dato);
         } catch (DuplicadoExcpetion e) {
-            System.out.println("duplicado exc");
+//            System.out.println("duplicado exc");
         }
     }
 }

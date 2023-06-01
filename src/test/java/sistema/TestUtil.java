@@ -63,7 +63,7 @@ public class TestUtil {
 
     public static void main(String[] args) {
 
-        System.out.println(Arrays.toString(ordenar(new Integer[]{5, 2, 1, 8, 23, 1, 11, 32, -1, -5})));
+//        System.out.println(Arrays.toString(ordenar(new Integer[]{5, 2, 1, 8, 23, 1, 11, 32, -1, -5})));
 
     }
 }

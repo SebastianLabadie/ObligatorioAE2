@@ -244,8 +244,8 @@ public class ImplementacionSistema implements Sistema {
 
 
             arbolEstacion.getElArbol().listarInOrder(listaEstaciones);
-            System.out.println(arbolEstacion.getElArbol().toString());
-            System.out.println("resultado: "+listaEstaciones.toString());
+//            System.out.println(arbolEstacion.getElArbol().toString());
+//            System.out.println("resultado: "+listaEstaciones.toString());
 
             return Retorno.ok(listaEstaciones.toString());
         } catch (IndiceDestinoException | IndiceOrigenException e) {
@@ -267,8 +267,8 @@ public class ImplementacionSistema implements Sistema {
             estacionTemp2.Validar();
 
             Tupla<ListaGenerica<Estacion>,Double> tupla= grafoEstaciones.dijsktra(codigoEstacionOrigen,codigoEstacionDestino,c -> c.getKilometros());
-            System.out.println(tupla.getUno());
-            System.out.println(tupla.getDos());
+//            System.out.println(tupla.getUno());
+//            System.out.println(tupla.getDos());
 
             return Retorno.ok(tupla.getDos().intValue(),tupla.getUno().toString());
         } catch (IndiceDestinoException e) {
@@ -295,8 +295,8 @@ public class ImplementacionSistema implements Sistema {
             estacionTemp2.Validar();
 
             Tupla<ListaGenerica<Estacion>,Double> tupla= grafoEstaciones.dijsktra(codigoEstacionOrigen,codigoEstacionDestino,c -> c.getCosto());
-            System.out.println(tupla.getUno());
-            System.out.println(tupla.getDos());
+//            System.out.println(tupla.getUno());
+//            System.out.println(tupla.getDos());
 
             return Retorno.ok(tupla.getDos().intValue(),tupla.getUno().toString());
         } catch (IndiceDestinoException e) {
